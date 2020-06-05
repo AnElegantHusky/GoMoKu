@@ -1,7 +1,7 @@
 import socket
 
 
-HOST = "47.95.0.1"
+HOST = "172.24.6.34"
 PORT = 6790
 print(HOST+':'+str(PORT))
 # f = open('client.js', 'r+')
@@ -70,36 +70,6 @@ f.close()
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 s.listen(5)
-
-# while True:
-#     try:
-#         conn, addr = s.accept()
-#         request = conn.recv(1024)
-#         print(request.decode())
-#         request = request.decode().split(' ')
-#         # print(request)
-#         method = request[0]
-#         src = request[1]
-#
-#         if method == 'GET':
-#             if src == '/index.html':
-#                 conn.sendall(index_content.encode(encoding='UTF-8'))
-#             elif src == '/client.js':
-#                 conn.sendall(js_content.encode(encoding='UTF-8'))
-#             elif src == '/background.png':
-#                 conn.sendall(background_content)
-#             elif src == '/blackStone.png':
-#                 conn.sendall(blackStone_content)
-#             else:
-#                 conn.sendall(whiteStone_content)
-#         conn.close()
-#     except KeyboardInterrupt:
-#         break
-#     finally:
-#         traceback.print_exc()
-#         print('traceback.format_exc():\n%s' % traceback.format_exc())
-#
-
 
 while True:
     try:
