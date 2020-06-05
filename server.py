@@ -3,7 +3,7 @@ import socket
 
 HOST = socket.gethostbyname(socket.getfqdn(socket.gethostname()))
 PORT = 6790
-print(HOST+':'PORT)
+print(HOST+':'+PORT)
 
 # index.html
 index_content = '''
