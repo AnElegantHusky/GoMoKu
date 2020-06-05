@@ -1,7 +1,7 @@
 import socket
 
 
-HOST = "172.24.6.34"
+HOST = "0.0.0.0"
 PORT = 6790
 print(HOST+':'+str(PORT))
 # f = open('client.js', 'r+')
@@ -26,8 +26,9 @@ Content-Type: text/javascript
 
 '''
 f = open('client.js', 'r')
-add_line = 'var url = "ws://'+HOST+":"+str(PORT)+'"\n'
-js_content = js_content + add_line + f.read()
+# add_line = 'var url = "ws://'+HOST+":"+str(PORT)+'"\n'
+# js_content = js_content + add_line + f.read()
+js_content = js_content + f.read()
 f.close()
 
 # pic
@@ -75,12 +76,14 @@ while True:
     try:
         conn, addr = s.accept()
         request = conn.recv(1024)
-        # print(request.decode())
-        request = request.decode().split(' ')
-        if len(request) > 1:
-            method = request[0]
-            src = request[1]
-            print(src)
+        data = request.decode().split(' ')
+        # request = request.decode().split(' ')
+        if len(data) > 1:
+            method = data[0]
+            src = data[1]
+            print(conn)
+            print(addr)
+            print(request.decode())
         else:
             continue
 
