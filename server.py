@@ -4,6 +4,10 @@ import socket
 HOST = socket.gethostbyname(socket.getfqdn(socket.gethostname()))
 PORT = 6790
 print(HOST+':'+str(PORT))
+# f = open('client.js', 'r+')
+# f.seek(16, 0)
+# f.write(HOST+':'+str(PORT)+'"\n')
+# f.close()
 
 # index.html
 index_content = '''
@@ -22,7 +26,8 @@ Content-Type: text/javascript
 
 '''
 f = open('client.js', 'r')
-js_content = js_content + f.read()
+add_line = 'var url = "ws://'+HOST+":"+str(PORT)+'"\n'
+js_content = js_content + add_line + f.read()
 f.close()
 
 # pic
