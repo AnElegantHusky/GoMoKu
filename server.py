@@ -9,14 +9,15 @@ print(HOST+':'+str(PORT))
 # f.write(HOST+':'+str(PORT)+'"\n')
 # f.close()
 
+header = "HTTP/1.x 200 OK\r\n\r\n"
 # index.html
 index_content = '''
-HTTP/1.x 200 OK 
+HTTP/1.x 200 OK
 Content-Type: text/html
 
 '''
 f = open('index.html', 'r')
-index_content = index_content + f.read()
+index_content = header + f.read()
 f.close()
 
 # client.js
@@ -28,7 +29,7 @@ Content-Type: text/javascript
 f = open('client.js', 'r')
 # add_line = 'var url = "ws://'+HOST+":"+str(PORT)+'"\n'
 # js_content = js_content + add_line + f.read()
-js_content = js_content + f.read()
+js_content = header + f.read()
 f.close()
 
 # pic
@@ -38,7 +39,7 @@ Content-Type: image/png
 
 '''
 f = open('background.png', 'rb')
-background_content = background_content.encode(encoding='UTF-8') + f.read()
+background_content = header.encode(encoding='UTF-8') + f.read()
 f.close()
 
 blackStone_content = '''
@@ -47,7 +48,7 @@ Content-Type: image/png
 
 '''
 f = open('blackStone.png', 'rb')
-blackStone_content = blackStone_content.encode(encoding='UTF-8') + f.read()
+blackStone_content = header.encode(encoding='UTF-8') + f.read()
 f.close()
 
 whiteStone_content = '''
@@ -56,7 +57,7 @@ Content-Type: image/png
 
 '''
 f = open('whiteStone.png', 'rb')
-whiteStone_content = whiteStone_content.encode(encoding='UTF-8') + f.read()
+whiteStone_content = header.encode(encoding='UTF-8') + f.read()
 f.close()
 
 favicon_content = '''
@@ -65,7 +66,7 @@ Content-Type: image/ico
 
 '''
 f = open('favicon.ico', 'rb')
-favicon_content = favicon_content.encode(encoding='UTF-8') + f.read()
+favicon_content = header.encode(encoding='UTF-8') + f.read()
 f.close()
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
