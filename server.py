@@ -1,8 +1,9 @@
 import socket
 
 
-HOST = '47.95.0.1'
+HOST = socket.gethostbyname(socket.getfqdn(socket.gethostname()))
 PORT = 6790
+print(HOST+':'PORT)
 
 # index.html
 index_content = '''

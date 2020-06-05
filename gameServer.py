@@ -1,7 +1,7 @@
 from play.gamePlay import ChessBoard
 import asyncio
 import websockets
-import json
+import socket
 
 EMPTY = 0
 BLACK = 1
@@ -108,7 +108,7 @@ async def GoMoKu(websocket, path):
     # await websocket.send(greeting)
     # print(f"> {greeting}")
 
-start_server = websockets.serve(GoMoKu, '47.95.0.1', 6789)
+start_server = websockets.serve(GoMoKu, socket.gethostbyname(socket.getfqdn(socket.gethostname())), 6789)
 loop = asyncio.get_event_loop()
 try:
     loop.run_until_complete(start_server)
