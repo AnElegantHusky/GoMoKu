@@ -13,9 +13,12 @@
       <input type="text" id="name" placeholder="Player Name"></input>
       <button type="button" id="submit-btn" onclick="initPlayer(event)">Submit</button>
       <br>
+      <text id="wait-player" style="display:none;">Waiting...</text><br>
       <text id="black-player" style="display:true;">Black:</text><br>
       <text id="white-player" style="display:true;">White:</text><br>
       <text id="winner" style="display:true;">Winner:</text><br>
+      <button type="button" id="continue-btn" onclick="continueGame(event)">Continue</button>
+      <button type="button" id="refuse-btn" onclick="refuseGame(event)">Refuse</button>
     </div>
     <div id="chessBoard" style="width:400px;height:400px;border:1px solid black;position:relative;" \
         onclick="clickBoard(event)"></div>

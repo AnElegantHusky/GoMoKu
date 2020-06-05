@@ -1,7 +1,7 @@
 import socket
-import traceback
 
-HOST = ''
+
+HOST = '47.95.0.1'
 PORT = 6790
 
 # index.html

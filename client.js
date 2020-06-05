@@ -1,4 +1,4 @@
-var url = "ws://localhost:6789"
+var url = "ws://47.95.0.1:6789"
 var socket = new WebSocket(url)
 var websocket
 var yourColor
@@ -10,6 +10,7 @@ var board = []
 var empty = 0
 var black = 1
 var white = 2
+var winner = ''
 
 window.onload = function game() {
   for (var i = 0; i < 10; i++) {
@@ -19,6 +20,8 @@ window.onload = function game() {
     }
   }
   this.drawBoard()
+  // var div = document.getElementById("wait-player")
+  // div.style = "display:true;"
 }
 
 function initPlayer(event) {
@@ -32,6 +35,8 @@ function initPlayer(event) {
     div.parentNode.removeChild(div)
     div = document.getElementById("submit-btn")
     div.parentNode.removeChild(div)
+    div = document.getElementById("wait-player")
+    div.style = "display:true;"
   }
   
 }
@@ -65,6 +70,7 @@ function clickBoard(event) {
     var row = tuple[0]
     var col = tuple[1]
     if (board[row][col] == 0) {
+      socket.send(event.target.id)
       if (turn == 0) {
         image.src = "blackStone.png"
         board[row][col] = 1
@@ -74,6 +80,7 @@ function clickBoard(event) {
         board[row][col] = 2
       }
       turn = (turn + 1) % 2
+      drawBoard()
     }
   }
 }
@@ -89,6 +96,8 @@ socket.onmessage = function(event) {
   var data = message.substring(5)
 
   if (opcode == 'Info:') {
+    div = document.getElementById("wait-player")
+    div.style = "display:none;"
     player = data.split(':')
     if (yourName == player[0]) {
       yourColor = black
@@ -122,6 +131,20 @@ socket.onmessage = function(event) {
 
   if (opcode == 'Done:') {
     var div = document.getElementById("winnerr")
-    div.textContent("Winner: "+oppoName)
+    div.textContent("Winner: "+data)
+    winner = data
+  }
+}
+
+function continueGame(event) {
+  if (winner != '') {
+    socket.send("Cntn:")
+  }
+}
+
+function continueGame(event) {
+  if (winner != '') {
+    socket.send("Rfus:")
+    socket.close();
   }
 }
