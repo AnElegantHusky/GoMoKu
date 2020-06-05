@@ -1,7 +1,7 @@
 import socket
 
 
-HOST = socket.gethostbyname(socket.getfqdn(socket.gethostname()))
+HOST = "47.95.0.1"
 PORT = 6790
 print(HOST+':'+str(PORT))
 # f = open('client.js', 'r+')
