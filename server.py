@@ -83,7 +83,7 @@ while True:
             method = data[0]
             src = data[1]
             # print(conn)
-            print(addr+'-->'+src)
+            print(addr[0]+':'+addr[1]+'-->'+src)
             # print(request.decode())
         else:
             continue
