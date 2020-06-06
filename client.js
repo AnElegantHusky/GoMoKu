@@ -104,18 +104,18 @@ socket.onmessage = function(event) {
       oppoName = player[0]
       oppoColor = white
       var div = document.getElementById("black-player")
-      div.textContent("Black: "+yourName)
+      div.textContent = "Black: "+yourName
       div = document.getElementById("white-player")
-      div.textContent("White: "+oppoName)
+      div.textContent = "White: "+oppoName
     }
     else if (yourName == player[1]) {
       yourColor = white
       oppoName = player[1]
       oppoColor = black
       var div = document.getElementById("black-player")
-      div.textContent("Black: "+oppoName)
+      div.textContent = "Black: "+oppoName
       div = document.getElementById("white-player")
-      div.textContent("White: "+yourName)
+      div.textContent = "White: "+yourName
     }
     turn = 0
   }
@@ -131,7 +131,7 @@ socket.onmessage = function(event) {
 
   if (opcode == 'Done:') {
     var div = document.getElementById("winnerr")
-    div.textContent("Winner: "+data)
+    div.textContent = "Winner: "+data
     winner = data
   }
 }

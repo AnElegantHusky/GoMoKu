@@ -83,7 +83,7 @@ async def GoMoKu(websocket, path):
     name = name[5:]
     print("GoMoKu: "+websocket.remote_address[0]+str(websocket.remote_address[1])+'-->'+name)
     # while True:
-    if len(playerPool) > 1:
+    if len(playerPool) >= 1:
         opponent = playerPool.pop(0)
         op_socket = opponent[0]
         op_name = opponent[1]
