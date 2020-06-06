@@ -140,6 +140,7 @@ function onMessage(event) {
   if (opcode == 'Done:') {
     var div = document.getElementById("winner")
     div.textContent = "Winner: "+data
+    alert(div.textContent)
     winner = data
     turn = -2
     setTimeout(continueGame(), 10000)

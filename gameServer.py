@@ -21,14 +21,14 @@ playerPool = []
 
 
 async def GamePlay(blk_socket, blk_name, wht_socket, wht_name):
-    board = ChessBoard()
-    board.reset()
-    player_info = "Info:{}:{}".format(blk_name, wht_name)
-    print("    GamePlay: "+player_info)
-    await blk_socket.send(player_info)
-    await wht_socket.send(player_info)
-    while True:
-        try:
+    try:
+        board = ChessBoard()
+        board.reset()
+        player_info = "Info:{}:{}".format(blk_name, wht_name)
+        print("    GamePlay: "+player_info)
+        await blk_socket.send(player_info)
+        await wht_socket.send(player_info)
+        while True:
             blk_step = await blk_socket.recv()
             await wht_socket.send("Step:"+blk_step)
             print("      Step Black:"+blk_step)
@@ -52,9 +52,9 @@ async def GamePlay(blk_socket, blk_name, wht_socket, wht_name):
                 break
             # await blk_socket.send("Cntn:")
             # await wht_socket.send("Cntn:")
-        except websockets.exceptions.ConnectionClosed:
-            print("    GamePlay: ConnectionClosed:"+player_info[5:])
-            break
+    except websockets.exceptions.ConnectionClosed:
+        print("    GamePlay: ConnectionClosed:"+player_info[5:])
+
     # blk_socket.close()
     # print("  Close Black: "+blk_name)
     # wht_socket.close()
@@ -81,21 +81,24 @@ async def GamePlay(blk_socket, blk_name, wht_socket, wht_name):
 
 
 async def GoMoKu(websocket, path):
-    name = await websocket.recv()
-    name = name[5:]
-    print("GoMoKu: "+websocket.remote_address[0]+':'+str(websocket.remote_address[1])+'-->'+name)
-    # while True:
-    if len(playerPool) >= 1:
-        opponent = playerPool.pop(0)
-        op_socket = opponent[0]
-        op_name = opponent[1]
-        await GamePlay(op_socket, op_name, websocket, name)
-        print("  Close White: "+name)
-    else:
-        print("  Waiting...")
-        playerPool.append((websocket, name))
-        await websocket.wait_closed()
-        print("  Close Black: "+name)
+    try:
+        name = await websocket.recv()
+        name = name[5:]
+        print("GoMoKu: "+websocket.remote_address[0]+':'+str(websocket.remote_address[1])+'-->'+name)
+        # while True:
+        if len(playerPool) >= 1 and (websocket, name) not in playerPool:
+            opponent = playerPool.pop(0)
+            op_socket = opponent[0]
+            op_name = opponent[1]
+            await GamePlay(op_socket, op_name, websocket, name)
+            print("  Close White: "+name)
+        else:
+            print("  Waiting...")
+            playerPool.append((websocket, name))
+            await websocket.wait_closed()
+            print("  Close Black: "+name)
+    except websockets.exceptions.ConnectionClosedError:
+        return
 
 
 start_server = websockets.serve(GoMoKu, "0.0.0.0", 6789)
