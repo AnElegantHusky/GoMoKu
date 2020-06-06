@@ -64,6 +64,12 @@ function drawBoard()
   }
 }
 
+// function updateBoard() {
+//   for (var i = 0; i < 10; i++) {
+//     for (var j = 0; j < 10; j++)
+//   }
+// }
+
 function clickBoard(event) {
   if (yourColor == turn + 1) {
     var image = document.getElementById(event.target.id)
@@ -72,16 +78,9 @@ function clickBoard(event) {
     var col = tuple[1]
     if (board[row][col] == 0) {
       socket.send(event.target.id)
-      if (turn == 0) {
-        image.src = "blackStone.png"
-        board[row][col] = 1
-      }
-      else {
-        image.src = "whiteStone.png"
-        board[row][col] = 2
-      }
+      board[row][col] = yourColor
       turn = (turn + 1) % 2
-      drawBoard()
+      // drawBoard()
     }
   }
 }
@@ -128,7 +127,6 @@ socket.onmessage = function(event) {
     else {
       image.src = "blackStone.png"
     }
-    
     turn = (turn + 1) % 2
   }
 

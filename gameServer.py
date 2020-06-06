@@ -38,8 +38,8 @@ async def GamePlay(blk_socket, blk_name, wht_socket, wht_name):
                 await blk_socket.send("Done:"+blk_name)
                 await wht_socket.send("Done:"+blk_name)
                 break
-            await blk_socket.send("Cntn:")
-            await wht_socket.send("Cntn:")
+            # await blk_socket.send("Cntn:")
+            # await wht_socket.send("Cntn:")
 
             wht_step = await wht_socket.recv()
             await blk_socket.send("Step:"+wht_step)
@@ -50,8 +50,8 @@ async def GamePlay(blk_socket, blk_name, wht_socket, wht_name):
                 await blk_socket.send("Done:"+wht_name)
                 await wht_socket.send("Done:"+wht_name)
                 break
-            await blk_socket.send("Cntn:")
-            await wht_socket.send("Cntn:")
+            # await blk_socket.send("Cntn:")
+            # await wht_socket.send("Cntn:")
         except websockets.exceptions.ConnectionClosed:
             print("    GamePlay: ConnectionClosed:"+player_info[5:])
             break
