@@ -155,9 +155,10 @@ function continueGame() {
     board[i] = []
     for (var j = 0; j < 10; j++) {
       board[i][j] = 0
+      var image = document.getElementById(i.toString()+':'+j.toString())
+      image.src = "background.png"
     }
   }
-  this.drawBoard()
   blackName = ''
 // var oppoColor
   whiteName = ''
