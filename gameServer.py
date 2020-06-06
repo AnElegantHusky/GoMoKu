@@ -73,40 +73,19 @@ async def register(websocket, name):
 
 
 async def GoMoKu(websocket, path):
-    print("here")
     name = await websocket.recv()
     name = name[5:]
-    print(websocket.remote_address[0]+' '+name)
+    print(websocket.remote_address[0]+str(websocket.remote_address[1])+'-->'+name)
     # while True:
-    await register(websocket, name)
+    if len(playerPool) > 1:
+        opponent = playerPool.pop(0)
+        op_socket = opponent[0]
+        op_name = opponent[1]
+        game = asyncio.Task(GamePlay(op_socket, op_name, websocket, name))
+    else:
+        playerPool.append((websocket, name))
+        await websocket.wait_closed()
 
-    # message = await websocket.recv()
-    # print(f"< {message}")
-    # while True:
-    #     name = await websocket.recv()
-    #     if name[0:5] == 'name:':
-    #         if len(playerPool) == 0:
-    #             # socketPool.append(websocket)
-    #             playerPool.append((name[5:], websocket))
-    #             while len(playerPool) == 1:
-    #                 await asyncio.sleep(1)
-    #         else:
-    #             opponent = playerPool.pop(0)
-    #             matchPool.append((opponent[0], opponent[1], websocket, name[5:]))
-    #     break
-    #
-    # if len(playerPool) >= 2:
-
-
-# async def waitForPlayer():
-#     while len(playerPool) == 1:
-#         await asyncio.sleep(1)
-#     return
-
-    # greeting = f"Hello {message}!"
-    #
-    # await websocket.send(greeting)
-    # print(f"> {greeting}")
 
 start_server = websockets.serve(GoMoKu, "0.0.0.0", 6789)
 loop = asyncio.get_event_loop()

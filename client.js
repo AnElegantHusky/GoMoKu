@@ -1,4 +1,4 @@
-var url = "ws://47.95.0.1:6790"
+var url = "ws://47.95.0.1:6789"
 var socket = new WebSocket(url)
 var websocket
 var yourColor
