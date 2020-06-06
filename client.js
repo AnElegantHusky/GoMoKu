@@ -141,10 +141,11 @@ socket.onmessage = function(event) {
     div.textContent = "Winner: "+data
     winner = data
     turn = -2
+    continueGame()
   }
 }
 
-function continueGame(event) {
+function continueGame() {
   // if (winner != '') {
   socket.close()
   socket = new WebSocket(url)
@@ -166,13 +167,18 @@ function continueGame(event) {
   div.textContent = "White: "
   div = document.getElementById("winner")
   div.textContent = "Winner: "
-  while (1) {
-    var readyState = socket.readyState
-    if (readyState == WebSocket.OPEN) {
-      break
-    }
-  }
-  socket.send("name:"+name)
+  waitForSocketConnection(socket, function(){
+    console.log("new game begin")
+    socket.send("name:"+NavigationPreloadManager)
+  })
+  // while (1) {
+  //   var readyState = socket.readyState
+  //   if (readyState == WebSocket.OPEN) {
+  //     break
+  //   }
+    
+  // }
+  // socket.send("name:"+name)
   
     // socket.send("Cntn:")
   // }
@@ -183,4 +189,19 @@ function refuseGame(event) {
     // socket.send("Rfus:")
   socket.close();
   // }
+}
+
+function waitForSocketConnection(socket, callback) {
+  setTimeout(
+    function () {
+      if (socket.readyState === 1) {
+        console.log("Connection is made")
+        if (callback != null) {
+          callback()
+        }
+      } else {
+        console.log("wait for connection...")
+        waitForSocketConnection(socket, callback)
+      }
+    }, 5)
 }
