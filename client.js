@@ -141,6 +141,7 @@ socket.onmessage = function(event) {
     div.textContent = "Winner: "+data
     winner = data
     turn = -2
+    setTimeout(continueGame(), 5000)
     continueGame()
   }
 }
@@ -169,7 +170,7 @@ function continueGame() {
   div.textContent = "Winner: "
   waitForSocketConnection(socket, function(){
     console.log("new game begin")
-    socket.send("name:"+NavigationPreloadManager)
+    socket.send("name:"+name)
   })
   // while (1) {
   //   var readyState = socket.readyState
