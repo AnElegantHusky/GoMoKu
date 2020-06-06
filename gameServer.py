@@ -21,13 +21,13 @@ playerPool = []
 
 
 async def GamePlay(blk_socket, blk_name, wht_socket, wht_name):
+    board = ChessBoard()
+    board.reset()
+    player_info = "Info:{}:{}".format(blk_name, wht_name)
+    await blk_socket.send(player_info)
+    await wht_socket.send(player_info)
     while True:
-        board = ChessBoard()
-        board.reset()
-        player_info = "Info:{}:{}".format(blk_name, wht_name)
-        await blk_socket.send(player_info)
-        await wht_socket.send(player_info)
-        while True:
+        try:
             blk_step = await blk_socket.recv()
             await wht_socket.send("Step:"+blk_step)
             blk_step = blk_step.split(':')
@@ -49,17 +49,20 @@ async def GamePlay(blk_socket, blk_name, wht_socket, wht_name):
                 break
             await blk_socket.send("Cntn:")
             await wht_socket.send("Cntn:")
-
-        blk_flag = await blk_socket.recv()
-        wht_flag = await wht_socket.recv()
-        if blk_flag == 'Rfus:' and wht_flag == 'Rfus:':
+        except websockets.exceptions.ConnectionClosed:
             break
-        elif blk_flag == 'Cntn:' and wht_flag == 'Cntn:':
-            continue
-        elif blk_flag == 'Cntn:':
-            playerPool.append((blk_socket, blk_name))
-        elif wht_flag == 'Cntn:':
-            playerPool.append((wht_socket, wht_name))
+    blk_socket.close()
+    # wht_socket.close()
+        # blk_flag = await blk_socket.recv()
+        # wht_flag = await wht_socket.recv()
+        # if blk_flag == 'Rfus:' and wht_flag == 'Rfus:':
+        #     break
+        # elif blk_flag == 'Cntn:' and wht_flag == 'Cntn:':
+        #     continue
+        # elif blk_flag == 'Cntn:':
+        #     playerPool.append((blk_socket, blk_name))
+        # elif wht_flag == 'Cntn:':
+        #     playerPool.append((wht_socket, wht_name))
 
 
 async def register(websocket, name):

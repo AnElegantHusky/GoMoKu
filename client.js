@@ -137,14 +137,18 @@ socket.onmessage = function(event) {
 }
 
 function continueGame(event) {
-  if (winner != '') {
-    socket.send("Cntn:")
-  }
+  // if (winner != '') {
+  socket.close()
+  socket = new WebSocket(url)
+  game()
+  initPlayer()
+    // socket.send("Cntn:")
+  // }
 }
 
 function continueGame(event) {
-  if (winner != '') {
-    socket.send("Rfus:")
-    socket.close();
-  }
+  // if (winner != '') {
+    // socket.send("Rfus:")
+  socket.close();
+  // }
 }
