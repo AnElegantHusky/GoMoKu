@@ -101,6 +101,9 @@ while True:
                 conn.sendall(whiteStone_content)
             elif src == '/favicon.ico':
                 conn.sendall(favicon_content)
+            else:
+                header = 'HTTP/1.1 404 NOT FOUND\r\n\r\n'
+                conn.send(header.encode())
         conn.close()
     except KeyboardInterrupt:
         break
