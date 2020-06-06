@@ -55,8 +55,8 @@ async def GamePlay(blk_socket, blk_name, wht_socket, wht_name):
         except websockets.exceptions.ConnectionClosed:
             print("    GamePlay: ConnectionClosed:"+player_info[5:])
             break
-    blk_socket.close()
-    print("  Close Black: "+blk_name)
+    # blk_socket.close()
+    # print("  Close Black: "+blk_name)
     # wht_socket.close()
         # blk_flag = await blk_socket.recv()
         # wht_flag = await wht_socket.recv()
@@ -70,14 +70,14 @@ async def GamePlay(blk_socket, blk_name, wht_socket, wht_name):
         #     playerPool.append((wht_socket, wht_name))
 
 
-async def register(websocket, name):
-    if playerPool:
-        opponent = playerPool.pop(0)
-        op_socket = opponent[0]
-        op_name = opponent[1]
-        await GamePlay(op_socket, op_name, websocket, name)
-    else:
-        playerPool.append((websocket, name))
+# async def register(websocket, name):
+#     if playerPool:
+#         opponent = playerPool.pop(0)
+#         op_socket = opponent[0]
+#         op_name = opponent[1]
+#         await GamePlay(op_socket, op_name, websocket, name)
+#     else:
+#         playerPool.append((websocket, name))
 
 
 async def GoMoKu(websocket, path):

@@ -80,12 +80,11 @@ function clickBoard(event) {
       socket.send(event.target.id)
       board[row][col] = yourColor
       turn = (turn + 1) % 2
-      var image = document.getElementById(data)
       if (yourColor == black) {
-        image.src = "whiteStone.png"
+        image.src = "blackStone.png"
       }
       else {
-        image.src = "blackStone.png"
+        image.src = "whitekStone.png"
       }
       // drawBoard()
     }
@@ -138,7 +137,7 @@ socket.onmessage = function(event) {
   }
 
   if (opcode == 'Done:') {
-    var div = document.getElementById("winnerr")
+    var div = document.getElementById("winner")
     div.textContent = "Winner: "+data
     winner = data
   }
@@ -149,12 +148,18 @@ function continueGame(event) {
   socket.close()
   socket = new WebSocket(url)
   game()
-  initPlayer()
+  blackName = ''
+// var oppoColor
+  whiteName = ''
+  turn = 0
+  yourColor = 0
+  socket.send("name:"+name)
+  
     // socket.send("Cntn:")
   // }
 }
 
-function continueGame(event) {
+function refuseGame(event) {
   // if (winner != '') {
     // socket.send("Rfus:")
   socket.close();
