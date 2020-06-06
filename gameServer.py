@@ -24,6 +24,7 @@ async def GamePlay(blk_socket, blk_name, wht_socket, wht_name):
     board = ChessBoard()
     board.reset()
     player_info = "Info:{}:{}".format(blk_name, wht_name)
+    print("    GamePlay: "+player_info)
     await blk_socket.send(player_info)
     await wht_socket.send(player_info)
     while True:
@@ -50,8 +51,10 @@ async def GamePlay(blk_socket, blk_name, wht_socket, wht_name):
             await blk_socket.send("Cntn:")
             await wht_socket.send("Cntn:")
         except websockets.exceptions.ConnectionClosed:
+            print("    GamePlay: ConnectionClosed:"+player_info[5:])
             break
     blk_socket.close()
+    print("  Close Black: "+blk_name)
     # wht_socket.close()
         # blk_flag = await blk_socket.recv()
         # wht_flag = await wht_socket.recv()
@@ -78,16 +81,19 @@ async def register(websocket, name):
 async def GoMoKu(websocket, path):
     name = await websocket.recv()
     name = name[5:]
-    print(websocket.remote_address[0]+str(websocket.remote_address[1])+'-->'+name)
+    print("GoMoKu: "+websocket.remote_address[0]+str(websocket.remote_address[1])+'-->'+name)
     # while True:
     if len(playerPool) > 1:
         opponent = playerPool.pop(0)
         op_socket = opponent[0]
         op_name = opponent[1]
-        game = asyncio.Task(GamePlay(op_socket, op_name, websocket, name))
+        await GamePlay(op_socket, op_name, websocket, name)
+        print("  Close White: "+name)
     else:
+        print("  Waiting...")
         playerPool.append((websocket, name))
         await websocket.wait_closed()
+        print("  Close Black: "+name)
 
 
 start_server = websockets.serve(GoMoKu, "0.0.0.0", 6789)
