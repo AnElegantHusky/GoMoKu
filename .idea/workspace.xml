@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9fa64321-2643-44a6-9679-8080e4b10cff" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/gameServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/gameServer.py" afterDir="false" />
-    </list>
+    <list default="true" id="9fa64321-2643-44a6-9679-8080e4b10cff" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,15 +167,15 @@
       <workItem from="1591355831409" duration="5686000" />
       <workItem from="1591365284563" duration="6416000" />
       <workItem from="1591404879864" duration="9092000" />
-      <workItem from="1591440473035" duration="1559000" />
+      <workItem from="1591440473035" duration="1937000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22753000" />
+    <option name="totallyTimeSpent" value="23131000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1477" height="797" extended-state="6" />
+    <frame x="-7" y="-7" width="1477" height="797" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21705426" />

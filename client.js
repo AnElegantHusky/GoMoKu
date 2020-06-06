@@ -1,9 +1,10 @@
 var url = "ws://47.95.0.1:6789"
 var socket = new WebSocket(url)
 var websocket
-var yourColor
+var yourColor = 0
+var yourName = ''
 var blackName = ''
-var oppoColor
+// var oppoColor
 var whiteName = ''
 var turn = 0 // 0: black turn; 1: white turn
 var board = []
@@ -99,24 +100,18 @@ socket.onmessage = function(event) {
     div = document.getElementById("wait-player")
     div.style = "display:none;"
     player = data.split(':')
+    blackName = player[0]
+    whiteName = player[1]
     if (yourName == player[0]) {
       yourColor = black
-      oppoName = player[0]
-      oppoColor = white
-      var div = document.getElementById("black-player")
-      div.textContent = "Black: "+yourName
-      div = document.getElementById("white-player")
-      div.textContent = "White: "+oppoName
     }
     else if (yourName == player[1]) {
       yourColor = white
-      oppoName = player[1]
-      oppoColor = black
-      var div = document.getElementById("black-player")
-      div.textContent = "Black: "+oppoName
-      div = document.getElementById("white-player")
-      div.textContent = "White: "+yourName
     }
+    var div = document.getElementById("black-player")
+      div.textContent = "Black: "+blackName
+      div = document.getElementById("white-player")
+      div.textContent = "White: "+whiteName
     turn = 0
   }
 
