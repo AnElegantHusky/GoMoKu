@@ -83,7 +83,7 @@ while True:
             method = data[0]
             src = data[1]
             # print(conn)
-            print(addr[0]+':'+addr[1]+'-->'+src)
+            print(addr[0]+':'+str(addr[1])+'-->'+src)
             # print(request.decode())
         else:
             continue
@@ -92,6 +92,7 @@ while True:
             if src == '/index.html':
                 print("src == /index.html")
                 conn.sendall(index_content.encode(encoding='UTF-8'))
+                print("send index finish")
             elif src == '/client.js':
                 conn.sendall(js_content.encode(encoding='UTF-8'))
             elif src == '/background.png':
