@@ -80,6 +80,13 @@ function clickBoard(event) {
       socket.send(event.target.id)
       board[row][col] = yourColor
       turn = (turn + 1) % 2
+      var image = document.getElementById(data)
+      if (yourColor == black) {
+        image.src = "whiteStone.png"
+      }
+      else {
+        image.src = "blackStone.png"
+      }
       // drawBoard()
     }
   }
