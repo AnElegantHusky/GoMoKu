@@ -82,14 +82,15 @@ while True:
         if len(data) > 1:
             method = data[0]
             src = data[1]
-            print(conn)
-            print(addr)
-            print(request.decode())
+            # print(conn)
+            print(addr+'-->'+src)
+            # print(request.decode())
         else:
             continue
 
         if method == 'GET':
             if src == '/index.html':
+                print("src == /index.html")
                 conn.sendall(index_content.encode(encoding='UTF-8'))
             elif src == '/client.js':
                 conn.sendall(js_content.encode(encoding='UTF-8'))
