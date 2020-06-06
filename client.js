@@ -1,5 +1,6 @@
 var url = "ws://47.95.0.1:6789"
 var socket = new WebSocket(url)
+socket.onmessage = function(evt) { onMessage(evt) }
 var websocket
 var yourColor = 0
 var yourName = ''
@@ -95,7 +96,7 @@ function clickBoard(event) {
 //   socket.send("hello")
 // }
 
-socket.onmessage = function(event) {
+function onMessage(event) {
   var message = event.data
   // alert(message)
   // alert(message)
@@ -141,8 +142,8 @@ socket.onmessage = function(event) {
     div.textContent = "Winner: "+data
     winner = data
     turn = -2
-    setTimeout(continueGame(), 5000)
-    continueGame()
+    setTimeout(continueGame(), 10000)
+    // continueGame()
   }
 }
 
@@ -170,7 +171,8 @@ function continueGame() {
   div.textContent = "Winner: "
   waitForSocketConnection(socket, function(){
     console.log("new game begin")
-    socket.send("name:"+name)
+    socket.onmessage = function(evt) { onMessage(evt) }
+    socket.send("name:"+yourName)
   })
   // while (1) {
   //   var readyState = socket.readyState
@@ -200,6 +202,7 @@ function waitForSocketConnection(socket, callback) {
         if (callback != null) {
           callback()
         }
+        return
       } else {
         console.log("wait for connection...")
         waitForSocketConnection(socket, callback)

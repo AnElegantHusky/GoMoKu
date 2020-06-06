@@ -83,7 +83,7 @@ async def GamePlay(blk_socket, blk_name, wht_socket, wht_name):
 async def GoMoKu(websocket, path):
     name = await websocket.recv()
     name = name[5:]
-    print("GoMoKu: "+websocket.remote_address[0]+str(websocket.remote_address[1])+'-->'+name)
+    print("GoMoKu: "+websocket.remote_address[0]+':'+str(websocket.remote_address[1])+'-->'+name)
     # while True:
     if len(playerPool) >= 1:
         opponent = playerPool.pop(0)
