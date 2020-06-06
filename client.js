@@ -97,7 +97,7 @@ function clickBoard(event) {
 
 socket.onmessage = function(event) {
   var message = event.data
-  alert(message)
+  // alert(message)
   // alert(message)
   var opcode = message.substring(0, 5)
   var data = message.substring(5)
