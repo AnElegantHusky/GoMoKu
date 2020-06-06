@@ -92,6 +92,7 @@ function clickBoard(event) {
 
 socket.onmessage = function(event) {
   var message = event.data
+  alert(message)
   // alert(message)
   var opcode = message.substring(0, 5)
   var data = message.substring(5)
@@ -120,8 +121,15 @@ socket.onmessage = function(event) {
     row = parseInt(data[0])
     col = parseInt(data[1])
     board[row][col] = turn + 1
+    var image = document.getElementById(data)
+    if (yourColor == black) {
+      image.src = "whiteStone.png"
+    }
+    else {
+      image.src = "blackStone.png"
+    }
+    
     turn = (turn + 1) % 2
-    drawBoard()
   }
 
   if (opcode == 'Done:') {

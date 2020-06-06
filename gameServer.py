@@ -31,6 +31,7 @@ async def GamePlay(blk_socket, blk_name, wht_socket, wht_name):
         try:
             blk_step = await blk_socket.recv()
             await wht_socket.send("Step:"+blk_step)
+            print("      Step Black:"+blk_step)
             blk_step = blk_step.split(':')
             board.move(int(blk_step[0]), int(blk_step[1]), 'Black')
             if board.win(int(blk_step[0]), int(blk_step[1]), BLACK):
@@ -41,7 +42,8 @@ async def GamePlay(blk_socket, blk_name, wht_socket, wht_name):
             await wht_socket.send("Cntn:")
 
             wht_step = await wht_socket.recv()
-            await blk_socket.send("Step:"+wht_socket)
+            await blk_socket.send("Step:"+wht_step)
+            print("      Step White:"+wht_step)
             wht_step = wht_step.split(':')
             board.move(int(wht_step[0]), int(wht_step[1]), 'White')
             if board.win(int(wht_step[0]), int(wht_step[1]), WHITE):
