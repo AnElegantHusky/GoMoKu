@@ -115,9 +115,9 @@ socket.onmessage = function(event) {
       yourColor = white
     }
     var div = document.getElementById("black-player")
-      div.textContent = "Black: "+blackName
-      div = document.getElementById("white-player")
-      div.textContent = "White: "+whiteName
+    div.textContent = "Black: "+blackName
+    div = document.getElementById("white-player")
+    div.textContent = "White: "+whiteName
     turn = 0
   }
 
@@ -160,6 +160,18 @@ function continueGame(event) {
   whiteName = ''
   turn = 0
   yourColor = 0
+  var div = document.getElementById("black-player")
+  div.textContent = "Black: "
+  div = document.getElementById("white-player")
+  div.textContent = "White: "
+  div = document.getElementById("winner")
+  div.textContent = "Winner: "
+  while (1) {
+    var readyState = socket.readyState
+    if (readyState == WebSocket.OPEN) {
+      break
+    }
+  }
   socket.send("name:"+name)
   
     // socket.send("Cntn:")
