@@ -41,7 +41,7 @@ async def GamePlay(blk_socket, blk_name, wht_socket, wht_name):
                 await wht_socket.send("Done:"+wht_name)
                 break
 
-    except websockets.exceptions.ConnectionClosed, websockets.exceptions.ConnectionClosedOK:
+    except (websockets.exceptions.ConnectionClosed, websockets.exceptions.ConnectionClosedOK):
         print("    GamePlay: ConnectionClosed:"+ player_info[5:])
 
 
@@ -70,7 +70,7 @@ async def GoMoKu(websocket, path):
             await websocket.wait_closed()
             print("  Close Black: "+name)
     # if connection closed by one player, then game over
-    except websockets.exceptions.ConnectionClosedError, websockets.exceptions.ConnectionClosedOK:
+    except (websockets.exceptions.ConnectionClosedError, websockets.exceptions.ConnectionClosedOK):
         return
 
 # main event loop
