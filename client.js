@@ -1,11 +1,9 @@
 var url = "ws://47.95.0.1:6789"
 var socket = new WebSocket(url)
 socket.onmessage = function(evt) { onMessage(evt) }
-var websocket
 var yourColor = 0
 var yourName = ''
 var blackName = ''
-// var oppoColor
 var whiteName = ''
 var turn = 0 // 0: black turn; 1: white turn
 var board = []
@@ -14,6 +12,7 @@ var black = 1
 var white = 2
 var winner = ''
 
+// init ChessBoard when page loaded
 window.onload = function game() {
   for (var i = 0; i < 10; i++) {
     board[i] = []
@@ -22,16 +21,14 @@ window.onload = function game() {
     }
   }
   this.drawBoard()
-  // var div = document.getElementById("wait-player")
-  // div.style = "display:true;"
 }
 
+// player input name, waiting for a new game
 function initPlayer(event) {
   var name = document.getElementById("name").value;
-  if (name != "")
-  {
+  if (name != "") {
     // alert(name)
-    socket.send("name:"+name)
+    socket.send("name:" + name)
     yourName = name
     var div = document.getElementById("name")
     div.parentNode.removeChild(div)
@@ -40,12 +37,11 @@ function initPlayer(event) {
     div = document.getElementById("wait-player")
     div.style = "display:true;"
   }
-  
 }
 
+// draw ChessBoard
 function drawBoard()
 {
-  // this.alert("drawBoard")
   var left = 0
   var top = 0
   for (var i = 0; i < 10; i++) {
@@ -65,12 +61,8 @@ function drawBoard()
   }
 }
 
-// function updateBoard() {
-//   for (var i = 0; i < 10; i++) {
-//     for (var j = 0; j < 10; j++)
-//   }
-// }
-
+// when (row, col) is empty and it's this player's turn, player can make a move
+//     draw the new legal move
 function clickBoard(event) {
   if (yourColor == turn + 1) {
     var image = document.getElementById(event.target.id)
@@ -87,19 +79,16 @@ function clickBoard(event) {
       else {
         image.src = "whiteStone.png"
       }
-      // drawBoard()
     }
   }
 }
 
-// socket.onopen = function(event) {
-//   socket.send("hello")
-// }
-
+// when websocket receive a new message, extract the opcode and data
+//     Info: a new game start and init opponent's information
+//     Step: a move from opponent
+//     Done: someone win the game
 function onMessage(event) {
   var message = event.data
-  // alert(message)
-  // alert(message)
   var opcode = message.substring(0, 5)
   var data = message.substring(5)
 
@@ -143,25 +132,24 @@ function onMessage(event) {
     alert(div.textContent)
     winner = data
     turn = -2
-    setTimeout(continueGame(), 10000)
-    // continueGame()
+    setTimeout(continueGame(), 1000)
   }
 }
 
+// when game over, websocket will be closed
+//     so init a new websocket in continueGame
 function continueGame() {
-  // if (winner != '') {
   socket.close()
   socket = new WebSocket(url)
   for (var i = 0; i < 10; i++) {
     board[i] = []
     for (var j = 0; j < 10; j++) {
       board[i][j] = 0
-      var image = document.getElementById(i.toString()+':'+j.toString())
+      var image = document.getElementById(i.toString() + ':' + j.toString())
       image.src = "background.png"
     }
   }
   blackName = ''
-// var oppoColor
   whiteName = ''
   turn = 0
   yourColor = 0
@@ -171,31 +159,19 @@ function continueGame() {
   div.textContent = "White: "
   div = document.getElementById("winner")
   div.textContent = "Winner: "
-  waitForSocketConnection(socket, function(){
+
+  // wait until connection established
+  waitForSocketConnection(socket, function () {
     console.log("new game begin")
-    socket.onmessage = function(evt) { onMessage(evt) }
-    socket.send("name:"+yourName)
+    socket.onmessage = function (evt) {
+      onMessage(evt)
+    }
+    socket.send("name:" + yourName)
   })
-  // while (1) {
-  //   var readyState = socket.readyState
-  //   if (readyState == WebSocket.OPEN) {
-  //     break
-  //   }
-    
-  // }
-  // socket.send("name:"+name)
-  
-    // socket.send("Cntn:")
-  // }
 }
 
-function refuseGame(event) {
-  // if (winner != '') {
-    // socket.send("Rfus:")
-  socket.close();
-  // }
-}
 
+// wait for socket connection
 function waitForSocketConnection(socket, callback) {
   setTimeout(
     function () {
@@ -210,4 +186,24 @@ function waitForSocketConnection(socket, callback) {
         waitForSocketConnection(socket, callback)
       }
     }, 5)
+}
+
+  // while (1) {
+  //   var readyState = socket.readyState
+  //   if (readyState == WebSocket.OPEN) {
+  //     break
+  //   }
+
+  // }
+  // socket.send("name:"+name)
+
+    // socket.send("Cntn:")
+  // }
+
+
+function refuseGame(event) {
+  // if (winner != '') {
+    // socket.send("Rfus:")
+  socket.close();
+  // }
 }

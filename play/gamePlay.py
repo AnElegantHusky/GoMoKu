@@ -1,19 +1,3 @@
-# def dumps(step): #解析
-#     _list = step.join(',0')
-#     k = _list[2: -2].split(',')
-#
-#     rt = []
-#     for i in range(len(k)):
-#         rt.append(int(k[i]))
-#     return rt
-#
-#
-# def check_win(data, board):
-#     pass
-#
-#
-# def checkFive()
-
 EMPTY = 0
 BLACK = 1
 WHITE = 2
@@ -22,22 +6,21 @@ ROW = 10
 COL = 10
 
 
+# every game will have a ChessBoard
 class ChessBoard(object):
     def __init__(self):
+        # init ChessBoard
         self.board = [[EMPTY for i in range(COL)] for j in range(ROW)]
-        # self.reset()
-
-    def reset(self):
-        for row in range(len(self.board)):
-            self.board[row] = [EMPTY for i in range(COL)]
 
     def move(self, row, col, color):
+        # player move
         if self.board[row][col] == EMPTY:
             self.board[row][col] = BLACK if color == 'Black' else WHITE
             return True
         return False
 
     def win(self, row, col, color):
+        # check if new move will win the game
         left_border = col - 4 if col >= 4 else 0
         right_border = col + 4 if col + 4 <= COL - 1 else COL -1
         top_border = row - 4 if row >= 4 else 0
@@ -48,6 +31,7 @@ class ChessBoard(object):
         count_slash = 0
         count_backslach = 0
 
+        # check if there are 5 continuous steps in horizon direction
         j = left_border
         while left_border <= j <= right_border:
             count_horizon = count_horizon + 1 if self.board[row][j] == color else 0
@@ -55,6 +39,7 @@ class ChessBoard(object):
                 return True
             j += 1
 
+        # check if there are 5 continuous steps in vertical direction
         i = top_border
         while top_border <= i <= down_border:
             count_vertical = count_vertical + 1 if self.board[i][col] == color else 0
@@ -62,10 +47,11 @@ class ChessBoard(object):
                 return True
             i += 1
 
-        tl_col = dl_col = left_border
-        tl_row = tr_row = top_border
-        dr_col = tr_col = right_border
-        dr_row = dl_row = down_border
+        # check if there are 5 continuous steps in \ direction
+        tl_col = dl_col = left_border  # top-left col; down-left col
+        tl_row = tr_row = top_border   # top-left row; down-left row
+        dr_col = tr_col = right_border  # down-right col; top-right col
+        dr_row = dl_row = down_border   # down-right row; top-right row
         if col - left_border > row - top_border:
             tl_col = col - (row - top_border)
         else:
@@ -85,6 +71,7 @@ class ChessBoard(object):
             i += 1
             j += 1
 
+        # check if there are 5 continuous steps in / direction
         if right_border - col > row - top_border:
             tr_col = col + (row - top_border)
         else:
@@ -138,3 +125,6 @@ class ChessBoard(object):
     #                 return True
 
 
+    # def reset(self):
+    #     for row in range(len(self.board)):
+    #         self.board[row] = [EMPTY for i in range(COL)]
