@@ -45,8 +45,7 @@ async def GamePlay(blk_socket, blk_name, wht_socket, wht_name):
         print("    GamePlay: ConnectionClosed:"+ player_info[5:])
 
 
-# main event loop
-# every websocket from browser will create a new coroutine
+# every websocket from browser will create a new coroutine 
 async def GoMoKu(websocket, path):
     try:
         socket_list = [i[0] for i in playerPool]
@@ -74,7 +73,7 @@ async def GoMoKu(websocket, path):
     except websockets.exceptions.ConnectionClosedError:
         return
 
-
+# main event loop
 # init websocket and event loop
 start_server = websockets.serve(GoMoKu, "0.0.0.0", 6789)
 loop = asyncio.get_event_loop()

@@ -12,7 +12,7 @@ var black = 1
 var white = 2
 var winner = ''
 
-// init ChessBoard when page loaded
+// init ChessBoard when page loaded, then draw the board
 window.onload = function game() {
   for (var i = 0; i < 10; i++) {
     board[i] = []
@@ -20,28 +20,6 @@ window.onload = function game() {
       board[i][j] = 0
     }
   }
-  this.drawBoard()
-}
-
-// player input name, waiting for a new game
-function initPlayer(event) {
-  var name = document.getElementById("name").value;
-  if (name != "") {
-    // alert(name)
-    socket.send("name:" + name)
-    yourName = name
-    var div = document.getElementById("name")
-    div.parentNode.removeChild(div)
-    div = document.getElementById("submit-btn")
-    div.parentNode.removeChild(div)
-    div = document.getElementById("wait-player")
-    div.style = "display:true;"
-  }
-}
-
-// draw ChessBoard
-function drawBoard()
-{
   var left = 0
   var top = 0
   for (var i = 0; i < 10; i++) {
@@ -60,6 +38,24 @@ function drawBoard()
     top += 40
   }
 }
+
+// player input name, waiting for a new game
+function initPlayer(event) {
+  var name = document.getElementById("name").value;
+  if (name != "") {
+    // alert(name)
+    socket.send("name:" + name)
+    yourName = name
+    var div = document.getElementById("name")
+    div.parentNode.removeChild(div)
+    div = document.getElementById("submit-btn")
+    div.parentNode.removeChild(div)
+    div = document.getElementById("wait-player")
+    div.style = "display:true;"
+  }
+}
+
+
 
 // when (row, col) is empty and it's this player's turn, player can make a move
 //     draw the new legal move
@@ -201,9 +197,31 @@ function waitForSocketConnection(socket, callback) {
   // }
 
 
-function refuseGame(event) {
-  // if (winner != '') {
-    // socket.send("Rfus:")
-  socket.close();
-  // }
-}
+// function refuseGame(event) {
+//   // if (winner != '') {
+//     // socket.send("Rfus:")
+//   socket.close();
+//   // }
+// }
+
+// // draw ChessBoard
+// function drawBoard()
+// {
+//   var left = 0
+//   var top = 0
+//   for (var i = 0; i < 10; i++) {
+//     left = 0
+//     for (var j = 0; j < 10; j++) {
+//       var image = document.createElement("img");
+//       var canvas = document.getElementById("chessBoard")
+//       image.src = "background.png"
+//       image.setAttribute("id", i.toString()+":"+j.toString())
+//       image.style = "width:40px;height:40px;position:absolute;border:1px solid black; \
+//             left:"+left.toString()+"px;top:"+top.toString()+"px;"
+//       // image.onclick = "clickBoard"
+//       canvas.appendChild(image);
+//       left += 40
+//     }
+//     top += 40
+//   }
+// }
