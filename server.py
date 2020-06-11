@@ -55,8 +55,14 @@ while True:
                 print("file not found")
                 conn.send("HTTP/1.0 404 Not Found\r\n".encode())
                 continue
+                # conn.close()
+            except ConnectionResetError:
+                print("reset error")
+                continue
             finally:
                 conn.close()
+    except ConnectionResetError:
+        continue
     except KeyboardInterrupt:
         break
 
