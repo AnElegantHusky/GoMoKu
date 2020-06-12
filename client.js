@@ -111,7 +111,7 @@ function onMessage(event) {
     step = data.split(':')
     row = parseInt(data[0])
     col = parseInt(data[1])
-    board[row][col] = turn + 1
+    board[row][col] = 1
     var image = document.getElementById(data)
     if (yourColor == black) {
       image.src = "whiteStone.png"
