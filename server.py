@@ -2,12 +2,22 @@ import socket
 
 
 # init socket
-HOST = "0.0.0.0"
+HOST = "localhost"
 PORT = 6790
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
-s.listen(128)
+s.listen(5)
+
+with open("./log/server.log", "w+") as log:
+    print("server listening: {}:{}".format(HOST, PORT), file=log)
+
+
+def server_log(text):
+    # print(text)
+    with open("./log/server.log", "a+") as log:
+        print(text, file=log)
+
 
 # handle http requests
 while True:
@@ -17,8 +27,9 @@ while True:
         data = request.decode().split(' ')
         if len(data) > 1:
             method = data[0]
-            src = data[1]
-            print(addr[0]+':'+str(addr[1])+'-->'+src)
+            src = "."+data[1]
+            # server_log(addr[0]+':'+str(addr[1])+'-->'+src)
+            server_log(data)
         else:
             continue
 
@@ -26,42 +37,42 @@ while True:
             try:
                 # handle image resources
                 if src[-4:] == ".png" or src[-4:] == ".ico":
-                    f = open(src[1:], 'rb')
-                    conn.send("HTTP/1.0 200 OK\r\n".encode())
-                    conn.send("Content-Type:image/{}\r\n".format(src[-3:]).encode())
-                    conn.send("\r\n".encode())
-                    while 1:
-                        data = f.read(1024)
-                        if not data:
-                            break
-                        conn.send(data)
-                    f.close()
+                    with open(src, 'rb') as f:
+                        conn.send("HTTP/1.0 200 OK\r\n".encode())
+                        conn.send("Content-Type:image/{}\r\n".format(src[-3:]).encode())
+                        conn.send("\r\n".encode())
+                        while 1:
+                            data = f.read(1024)
+                            if not data:
+                                break
+                            conn.send(data)
                 # handle text resources
                 elif src[-5:] == ".html" or src[-3:] == ".js":
-                    f = open(src[1:], "r")
-                    outputstr = f.readlines()
-                    outputdata = [line.encode() for line in outputstr]
-                    conn.send("HTTP/1.0 200 OK\r\n".encode())
-                    if src[-3:] == ".js":
-                        content_type = "Content-Type:text/javascript\r\n"
-                    else:
-                        content_type = "Content-Type:text/html\r\n"
-                    conn.send(content_type.encode())
-                    conn.send("\r\n".encode())
-                    for data in outputdata:
-                        conn.send(data)
-                    f.close()
+                    with open(src, "r") as f:
+                        outputstr = f.readlines()
+                        outputdata = [line.encode() for line in outputstr]
+                        conn.send("HTTP/1.0 200 OK\r\n".encode())
+                        if src[-3:] == ".js":
+                            content_type = "Content-Type:text/javascript\r\n"
+                        else:
+                            content_type = "Content-Type:text/html\r\n"
+                        conn.send(content_type.encode())
+                        conn.send("\r\n".encode())
+                        for data in outputdata:
+                            conn.send(data)
             except FileNotFoundError:
-                print("file not found")
+                server_log("file not found: " + src)
                 conn.send("HTTP/1.0 404 Not Found\r\n".encode())
                 continue
                 # conn.close()
             except ConnectionResetError:
-                print("reset error")
+                server_log("reset error")
                 continue
             finally:
                 conn.close()
     except ConnectionResetError:
+        continue
+    except ConnectionAbortedError:
         continue
     except KeyboardInterrupt:
         break

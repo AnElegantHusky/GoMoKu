@@ -11,11 +11,15 @@ class ChessBoard(object):
     def __init__(self):
         # init ChessBoard
         self.board = [[EMPTY for i in range(COL)] for j in range(ROW)]
+        self.step_count = 0
+        self.finish = False
+        self.winner = 0
 
     def move(self, row, col, color):
         # player move
         if self.board[row][col] == EMPTY:
             self.board[row][col] = BLACK if color == 'Black' else WHITE
+            self.step_count += 1
             return True
         return False
 
@@ -36,6 +40,8 @@ class ChessBoard(object):
         while left_border <= j <= right_border:
             count_horizon = count_horizon + 1 if self.board[row][j] == color else 0
             if count_horizon == 5:
+                self.finish = True
+                self.winner = color
                 return True
             j += 1
 
@@ -44,6 +50,8 @@ class ChessBoard(object):
         while top_border <= i <= down_border:
             count_vertical = count_vertical + 1 if self.board[i][col] == color else 0
             if count_vertical == 5:
+                self.finish = True
+                self.winner = color
                 return True
             i += 1
 
@@ -67,6 +75,8 @@ class ChessBoard(object):
         while tl_col <= j <= dr_col and tl_row <= i <= dr_row:
             count_backslach = count_backslach + 1 if self.board[i][j] == color else 0
             if count_backslach == 5:
+                self.finish = True
+                self.winner = color
                 return True
             i += 1
             j += 1
@@ -87,13 +97,21 @@ class ChessBoard(object):
         while dl_col <= j <= tr_col and tr_row <= i <= dl_row:
             count_slash = count_slash + 1 if self.board[i][j] == color else 0
             if count_slash == 5:
+                self.finish = True
+                self.winner = color
                 return True
             i += 1
             j -= 1
 
         return False
 
-
+    def sequence(self):
+        result = ""
+        for i in range(0, ROW):
+            for j in range(0, COL):
+                result += "{},".format(self.board[i][j])
+        result = result[:-1]
+        return result
     # def win(self):
     #     for row in range(ROW):
     #         flag_black = 0
