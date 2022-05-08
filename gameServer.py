@@ -102,16 +102,17 @@ async def main(websocket):
         print("    GoMoKu: ConnectionClosed:"+ player_info[5:])
         return
 
-start_server = websockets.serve(main, "0.0.0.0", 6791)
-loop = asyncio.get_event_loop()
-print("game listening 0.0.0.0:6791")
-try:
-    loop.run_until_complete(start_server)
-    loop.run_forever()
-except KeyboardInterrupt:
-    loop.close()
-finally:
-    loop.close()
+if __name__ == "__main__":
+    start_server = websockets.serve(main, "0.0.0.0", 6791)
+    loop = asyncio.get_event_loop()
+    print("game listening 0.0.0.0:6791")
+    try:
+        loop.run_until_complete(start_server)
+        loop.run_forever()
+    except KeyboardInterrupt:
+        loop.close()
+    finally:
+        loop.close()
 
 
 # async def blackPlayer(player_socket, player_name, opponent_socket, opponent_name, board, lock=None):
